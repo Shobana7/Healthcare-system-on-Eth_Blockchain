@@ -1,0 +1,156 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<head>
+    <style>
+        .noCopy {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<nav class="navbar navbar-dark" style="background-color: black">
+    <a class="navbar-brand" style="padding-top: 5px;padding-left: 15px;">
+      <img src="/static/img/icon.png" alt="Logo" height="40">
+    </a>
+    <a class="navbar-brand" style="color:white;font-size: 20px;" href="/">Electronic Health Record System</a>
+    <a class="navbar-brand" style="color:white; vertical-align: middle; float: right; font-size: 15px;" href="/">Log Out</a>
+</nav>
+
+<div class="row">
+
+    <div class="container col-md-6" style="margin-left: 10%">
+ <h3>Doctor actions</h3>
+    <ul>
+        <li class="list-group-item">Account Address: {{username}}</li>
+        {% if contract_address != "0" %}
+        <li class="list-group-item">Contract Address: {{contract_address}}</li>
+        {% endif %}
+    </ul>
+  <hr>
+    <form action="" method="post" class="form" role="form">
+        {{ form.csrf_token() }}
+        <div class="row">
+            <div class="form-group col-md-8">
+                {{ wtf.form_field(form.contract_address, class='form-control',
+                placeholder='Patient Contract Address to View Medical Records') }}
+                <button type="submit" class="btn btn-primary col-md-3" style="width: fit-content;" value="VALUE60" name="action60">Submit</button>
+
+            </div>
+        </div>
+
+    </form>
+    <hr>
+  <form action="" method="post" class="form" role="form">
+   {{ form.csrf_token() }}
+   <div class="row">
+      <div class="form-group col-md-8">
+       {{ wtf.form_field(form.print_record, class='form-control', 
+          placeholder='Record ID') }}
+       <button type="submit" class="btn btn-primary col-md-3" style="width: fit-content;" value="VALUE70" name="action70">Print</button>
+
+      </div>
+    </div>
+    
+  </form>
+  <hr>
+    <form action="" method="post" class="form" role="form">
+        {{ form.csrf_token() }}
+        <div class="row">
+            <div class="form-group col-md-8">
+                {{ wtf.form_field(form.copy_record, class='form-control',
+                placeholder='Record ID') }}
+                <button type="submit" class="btn btn-primary col-md-3" style="width: fit-content;" value="VALUE80" name="action80">Copy </button>
+
+            </div>
+        </div>
+
+    </form>
+    <hr>
+  <form action="" method="post" class="form" role="form">
+   {{ form.csrf_token() }}
+   <div class="row">
+      <div class="form-group col-md-8">
+          {{ wtf.form_field(form.update_record_id, class='form-control',
+          placeholder='Record ID') }}
+          {{ wtf.form_field(form.update_record_rec, class='form-control',
+          placeholder='Record Details') }}
+       <button type="submit" class="btn btn-primary col-md-3" style="width: fit-content;" value="VALUE90" name="action90">Update </button>
+
+      </div>
+    </div>
+    
+  </form>
+
+  <hr>
+  <form action="" method="post" class="form" role="form">
+   {{ form.csrf_token() }}
+   <div class="row">
+      <div class="form-group col-md-8">
+       {{ wtf.form_field(form.delete_record, class='form-control', 
+          placeholder='Record ID') }}
+       <button type="submit" class="btn btn-primary col-md-3" style="width: fit-content;" value="VALUE00" name="action00">Delete</button>
+
+      </div>
+    </div>
+    
+  </form>
+
+</div>
+
+
+<!--results-->
+    <div class="container col-md-4">
+        {% if isCard == True %}
+        {% block content1 %}
+        <div class="card noCopy" style="width: 48rem; position: fixed; top: 30%;">
+            <div class="card-body">
+                <h5 class="card-title">Action: {{result}}</h5>
+                <p class="card-text"><b>Details:</b>
+                </p>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% if isStart == True %}
+                <li class="list-group-item"><b>Appointment Date:</b> {{date}}</li>
+                {% endif %}
+                <li class="list-group-item"><b>Tx Hash:</b> {{tx_hash[:40]}}...</li>
+                {% if event_logs[0]['args']['record_unique_id'] %}
+                <li class="list-group-item"><b>Unique Record ID:</b>  {{event_logs[0]['args']['record_unique_id']}} </li>
+                <li class="list-group-item"> Show this to your doctor:<br>
+                    <img src={{qr_code}} alt="" title="" />
+                </li>
+
+                {% endif %}
+                {% if event_logs[0]['args']['record_msg'] %}
+                <li class="list-group-item"><b>Record Message:</b>  {{event_logs[0]['args']['record_msg']}} </li>
+                <li class="list-group-item"><b>Record Status:</b> {{event_logs[0]['args']['record_status']}}
+                    <br>(0-Created, 1-Deleted, 2-Changed, 3-Queried, 4-Printed, 5-Copied)</li>
+
+                {% endif %}
+                {% if event_logs[0]['args']['return_msg'] %}
+                <li class="list-group-item"><b>Event Log:</b>  {{event_logs[0]['args']['return_msg']}} </li>
+                <li class="list-group-item"><b>Address:</b>  {{event_logs[0]['args']['doctor_address']}} </li>
+                <li class="list-group-item"><b>Epoch time:</b>  {{event_logs[0]['args']['record_time']}} </li>
+                {% endif %}
+            </ul>
+
+            <div class="card-body">
+                {% if record_details %}
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><b>Medical Record Details:</b> </li>
+                    <li class="list-group-item">{{record_details}}</li>
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+        {% endblock %}
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

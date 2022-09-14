@@ -1,0 +1,43 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<head>
+  <style>
+    .parallax {
+
+      background-image: url("/static/img/hosp.jpeg");
+
+      min-height: 500px;
+      min-width: 680px;
+      margin-top: 10%;
+
+      background-attachment: fixed;
+      background-position: left;
+      background-repeat: no-repeat;
+      background-size: 1700px;
+    }
+  </style>
+</head>
+<nav class="navbar navbar-dark" style="background-color: black">
+  <a class="navbar-brand" style="padding-top: 5px;padding-left: 15px;">
+    <img src="/static/img/icon.png" alt="Logo" height="40">
+  </a>
+  <a class="navbar-brand" style="color:white;font-size: 20px;" href="/">Electronic Health Record System</a>
+  <a class="navbar-brand" style=" color:white; vertical-align: middle; float: right; font-size: 15px;" href="login">Login</a>
+  <a class="navbar-brand" style="color:white; vertical-align: middle; float: right; font-size: 15px;" href="patientsignup">Patient Signup</a>
+  <a class="navbar-brand" style="color:white; vertical-align: middle; float: right; font-size: 15px;" href="auditorsignup">Audit Signup</a>
+  <a class="navbar-brand" style="color:white; vertical-align: middle; float: right; font-size: 15px;" href="doctorsignup">Doctor Signup</a>
+</nav>
+<div class="row">
+
+  <div class="container col-md-5" style="margin-left: 10%">
+  <h3>Doctor Account SignUp</h3>
+  <hr>
+    {{ wtf.quick_form(form) }}
+  <hr>
+</div>
+  <div class="container col-md-5">
+    <div class="parallax"></div>
+  </div>
+</div>
+{% endblock %}
