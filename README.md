@@ -1,10 +1,3 @@
-# Demonstration of work done
-
-Click on the thumbnail to view the prototype demo
-  
-<a href="http://www.youtube.com/watch?v=FcQcT-YqciA" target="_blank"><img src="http://img.youtube.com/vi/FcQcT-YqciA/0.jpg" 
-alt="Static web design" width="300" height="200"/></a>
-
 # System Design 
 
 The proposed system consists of three participants: doctor, patient and auditor. The roles of each of the participants are:
